@@ -70,15 +70,16 @@ public_users.get('/title/:title', async (req, res) => {
   });
 //  Get book review
 public_users.get('/review/:isbn', function (req, res) {
-    //Write your code here
     const isbn = req.params.isbn;
     const book = books[isbn];
 
     if (book) {
-        res.send(book.review);
+        res.send(book.reviews);  // Use 'reviews' not 'review'
     } else {
-        res.status(404).send({ message: "Book not found" });
+        res.status(404).send({ message: "No review found for this book" });
     }
 });
+
+
 
 module.exports.general = public_users;
