@@ -40,7 +40,7 @@ regd_users.post("/login", (req, res) => {
   };
 
   return res.status(200).json({
-    message: "User successfully logged in",
+    message: "logging in as register user, log in succesfull",
     token
   });
 });
@@ -104,7 +104,6 @@ regd_users.delete("/auth/review/:isbn", (req, res) => {
     reviews: book.reviews
   });
 });
-
 
 
 module.exports.authenticated = regd_users;

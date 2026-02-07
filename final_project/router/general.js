@@ -23,49 +23,48 @@ public_users.post("/register", (req, res) => {
 });
 
 // Get the book list available in the shop
-public_users.get('/', (req, res) => {
-    axios.get('http://localhost:5000/')
-        .then(response => {
-            res.status(200).json(response.data);
-        })
-        .catch(error => {
-            res.status(500).json({ message: "Error fetching book list" });
-        });
-});
-
-
-// Get book details based on ISBN
-public_users.get('/isbn/:isbn', async (req, res) => {
-    const isbn = req.params.isbn;
-
-    try {
-        const response = await axios.get(`http://localhost:5000/isbn/${isbn}`);
-        res.send(response.data);
-    } catch (error) {
-        res.status(500).json({ message: "Error fetching book details", error: error.message });
-    }
-});
-
-// Get book details based on author
-public_users.get('/author/:author', async (req, res) => {
-    const author = req.params.author;
-
-    try {
-        const response = await axios.get(`http://localhost:5000/author/${author}`);
-        res.send(response.data);
-    } catch (error) {
-        res.status(500).json({ message: "Error fetching books by author", error: error.message });
-    }
-});
-// Get all books based on title
-public_users.get('/title/:title', async (req, res) => {
-    const title = req.params.title;
+const fetchData = async (url) => {
+    const response = await axios.get(url);
+    return response.data;
+  };
   
+  // Get all books
+  public_users.get('/', async (req, res) => {
     try {
-      const response = await axios.get(`http://localhost:5000/title/${title}`);
-      res.send(response.data);
+      const books = await fetchData(`${BASE_URL}/`);
+      res.status(200).json(books);
     } catch (error) {
-      res.status(500).json({ message: "Error fetching books by title", error: error.message });
+      res.status(500).json({ message: "Error fetching book list" });
+    }
+  });
+  
+  // Get book details by ISBN
+  public_users.get('/isbn/:isbn', async (req, res) => {
+    try {
+      const data = await fetchData(`${BASE_URL}/isbn/${req.params.isbn}`);
+      res.status(200).json(data);
+    } catch (error) {
+      res.status(404).json({ message: "Book not found" });
+    }
+  });
+  
+  // Get books by author
+  public_users.get('/author/:author', async (req, res) => {
+    try {
+      const data = await fetchData(`${BASE_URL}/author/${req.params.author}`);
+      res.status(200).json(data);
+    } catch (error) {
+      res.status(404).json({ message: "No books found for this author" });
+    }
+  });
+  
+  // Get books by title
+  public_users.get('/title/:title', async (req, res) => {
+    try {
+      const data = await fetchData(`${BASE_URL}/title/${req.params.title}`);
+      res.status(200).json(data);
+    } catch (error) {
+      res.status(404).json({ message: "No books found with this title" });
     }
   });
 //  Get book review
