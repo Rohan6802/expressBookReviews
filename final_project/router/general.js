@@ -3,9 +3,11 @@ const axios = require('axios');
 let books = require("./booksdb.js");
 let isValid = require("./auth_users.js").isValid;
 let users = require("./auth_users.js").users;
-const BASE_URL = "http://localhost:5000";
+
+const BASE_URL = "http://localhost:5000"; 
 
 const public_users = express.Router();
+
 
 public_users.post("/register", (req, res) => {
     //Write your code here
@@ -30,14 +32,14 @@ const fetchData = async (url) => {
   };
   
   // Get all books
-  public_users.get('/', async (req, res) => {
+  public_users.get('/', (req, res) => {
     try {
-      const books = await fetchData(`${BASE_URL}/`);
       res.status(200).json(books);
     } catch (error) {
       res.status(500).json({ message: "Error fetching book list" });
     }
   });
+  
   
   // Get book details by ISBN
   public_users.get('/isbn/:isbn', async (req, res) => {
@@ -49,13 +51,14 @@ const fetchData = async (url) => {
     }
   });
   
+
 // Get books by author
 public_users.get('/author/:author', async (req, res) => {
     try {
       const author = encodeURIComponent(req.params.author);
       const data = await fetchData(`${BASE_URL}/author/${author}`);
       res.status(200).json(data);
-    } catch (error) {
+    } catch {
       res.status(404).json({ message: "No books found for this author" });
     }
   });
@@ -66,10 +69,11 @@ public_users.get('/author/:author', async (req, res) => {
       const title = encodeURIComponent(req.params.title);
       const data = await fetchData(`${BASE_URL}/title/${title}`);
       res.status(200).json(data);
-    } catch (error) {
+    } catch {
       res.status(404).json({ message: "No books found with this title" });
     }
   });
+  
   
 //  Get book review
 public_users.get('/review/:isbn', function (req, res) {
