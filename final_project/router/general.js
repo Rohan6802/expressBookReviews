@@ -21,7 +21,7 @@ public_users.post("/register", (req, res) => {
     users.push({ username, password });
     return res.status(201).json({ message: "User registered" });
 });
-
+const BASE_URL = "http://localhost:5000";
 // Get the book list available in the shop
 const fetchData = async (url) => {
     const response = await axios.get(url);
