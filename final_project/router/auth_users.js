@@ -40,7 +40,7 @@ regd_users.post("/login", (req, res) => {
   };
 
   return res.status(200).json({
-    message: "logging in as register user, log in succesfull",
+    message: "Login successful",
     token
   });
 });
