@@ -32,13 +32,15 @@ const fetchData = async (url) => {
   };
   
   // Get all books
-  public_users.get('/', (req, res) => {
+  public_users.get('/', async (req, res) => {
     try {
-      res.status(200).json(books);
+      const data = await fetchData(`${BASE_URL}/`);
+      res.status(200).json(data);
     } catch (error) {
       res.status(500).json({ message: "Error fetching book list" });
     }
   });
+  
   
   
   // Get book details by ISBN
